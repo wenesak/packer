@@ -44,9 +44,10 @@ type PostProcessor interface {
 
 ### The "ConfigSpec" Method
 
-This method returns a hcldec.ObjectSpec, which is a spec necessary for using HCL2 templates with Packer. For information on how to use and implement this function, check
-
-our [object spec docs](https://www.packer.io/guides/hcl/component-object-spec)
+This method returns a hcldec.ObjectSpec, which is a spec necessary for using
+HCL2 templates with Packer. For information on how to use and implement this
+function, check our
+[object spec docs](https://www.packer.io/guides/hcl/component-object-spec)
 
 ### The "Configure" Method
 
