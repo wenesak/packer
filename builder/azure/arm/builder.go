@@ -368,7 +368,12 @@ func (b *Builder) configureStateBag(stateBag multistep.StateBag) {
 	if b.config.OSType == constants.Target_Windows {
 		stateBag.Put(constants.ArmKeyVaultDeploymentName, fmt.Sprintf("kv%s", b.config.tmpDeploymentName))
 	}
-	stateBag.Put(constants.ArmKeyVaultName, b.config.tmpKeyVaultName)
+	if b.config.BuildKeyVaultName != "" {
+		stateBag.Put(constants.ArmKeyVaultName, b.config.BuildKeyVaultName)
+	} else {
+		stateBag.Put(constants.ArmKeyVaultName, b.config.tmpKeyVaultName)
+	}
+
 	stateBag.Put(constants.ArmNicName, b.config.tmpNicName)
 	stateBag.Put(constants.ArmPublicIPAddressName, b.config.tmpPublicIPAddressName)
 	if b.config.TempResourceGroupName != "" && b.config.BuildResourceGroupName != "" {
