@@ -96,14 +96,14 @@ func (p *Provisioner) Prepare(raws ...interface{}) error {
 	if p.config.EnvVarFormat == "" {
 		p.config.EnvVarFormat = "%s='%s' "
 
-		if p.config.UseEnvVarFile == true {
+		if p.config.UseEnvVarFile {
 			p.config.EnvVarFormat = "export %s='%s'\n"
 		}
 	}
 
 	if p.config.ExecuteCommand == "" {
 		p.config.ExecuteCommand = "chmod +x {{.Path}}; {{.Vars}} {{.Path}}"
-		if p.config.UseEnvVarFile == true {
+		if p.config.UseEnvVarFile {
 			p.config.ExecuteCommand = "chmod +x {{.Path}}; . {{.EnvVarFile}} && {{.Path}}"
 		}
 	}
@@ -213,7 +213,7 @@ func (p *Provisioner) Provision(ctx context.Context, ui packer.Ui, comm packer.C
 		tf.Close()
 	}
 
-	if p.config.UseEnvVarFile == true {
+	if p.config.UseEnvVarFile {
 		tf, err := tmp.File("packer-shell-vars")
 		if err != nil {
 			return fmt.Errorf("Error preparing shell script: %s", err)
@@ -406,8 +406,8 @@ func (p *Provisioner) escapeEnvVars() ([]string, map[string]string) {
 	envVars := make(map[string]string)
 
 	// Always available Packer provided env vars
-	envVars["PACKER_BUILD_NAME"] = fmt.Sprintf("%s", p.config.PackerBuildName)
-	envVars["PACKER_BUILDER_TYPE"] = fmt.Sprintf("%s", p.config.PackerBuilderType)
+	envVars["PACKER_BUILD_NAME"] = p.config.PackerBuildName
+	envVars["PACKER_BUILDER_TYPE"] = p.config.PackerBuilderType
 
 	// expose ip address variables
 	httpAddr := common.GetHTTPAddr()

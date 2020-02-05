@@ -71,7 +71,7 @@ func (p *Provisioner) Prepare(raws ...interface{}) error {
 
 	if p.config.Direction == "upload" {
 		for _, src := range p.config.Sources {
-			if _, err := os.Stat(src); p.config.Generated == false && err != nil {
+			if _, err := os.Stat(src); !p.config.Generated && err != nil {
 				errs = packer.MultiErrorAppend(errs,
 					fmt.Errorf("Bad source '%s': %s", src, err))
 			}

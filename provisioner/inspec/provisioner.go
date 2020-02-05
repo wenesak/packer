@@ -234,7 +234,7 @@ func (p *Provisioner) Provision(ctx context.Context, ui packer.Ui, comm packer.C
 	keyChecker := ssh.CertChecker{
 		UserKeyFallback: func(conn ssh.ConnMetadata, pubKey ssh.PublicKey) (*ssh.Permissions, error) {
 			if user := conn.User(); user != p.config.User {
-				return nil, errors.New(fmt.Sprintf("authentication failed: %s is not a valid user", user))
+				return nil, fmt.Errorf("authentication failed: %s is not a valid user", user)
 			}
 
 			if !bytes.Equal(k.Marshal(), pubKey.Marshal()) {
